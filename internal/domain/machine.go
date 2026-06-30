@@ -1,40 +1,29 @@
 package domain
 
-import "errors"
-
-type Direction string
-
-const (
-	Left  Direction = "L"
-	Right Direction = "R"
-)
-
-type Transition struct {
-	NextState string
-	Write     rune
-	Move      Direction
+type Machine struct {
+	States        []string
+	InputAlphabet []string
+	TapeAlphabet  []string
+	Transitions   map[string]map[string]Transition 
+	StartState    string
+	AcceptStates  []string
+	RejectStates  []string
 }
 
-type StateSymbol struct {
-	State  string
-	Symbol rune
-}
-
-type TMDefinition struct {
-	States      []string
-	InputAlpha  []rune
-	TapeAlpha   []rune
-	Transitions map[StateSymbol]Transition
-	StartState  string
-	AcceptState []string
-	RejectState []string
-	BlankSymbol rune
-}
-
-func NewTMDefinition(blank rune, start string) *TMDefinition {
-	return &TMDefinition{
-		Transitions: make(map[StateSymbol]Transition),
-		BlankSymbol: blank,
-		StartState:  start,
+func (m *Machine) IsAcceptState(state string) bool {
+	for _, s := range m.AcceptStates {
+		if s == state {
+			return true
+		}
 	}
+	return false
+}
+
+func (m *Machine) IsRejectState(state string) bool {
+	for _, s := range m.RejectStates {
+		if s == state {
+			return true
+		}
+	}
+	return false
 }
