@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turing Machine Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/app.js"></script>
+    <style>
+      .tape-cell {
+        width: 40px;
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+      <header class="mb-8 border-b border-gray-700 pb-4">
+        <h1 class="text-4xl font-bold text-blue-400">Escape From The Tape</h1>
+        <p class="text-gray-400 mt-2">
+          Deterministic Single-Tape Turing Machine Simulator
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1 bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-semibold mb-4 text-green-400">
+            Configuration
+          </h2>
+
+          <form id="tm-form" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-1"
+                >Initial Tape String</label
+              >
+              <input
+                type="text"
+                id="initial-tape"
+                value="S101#XX__G"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white font-mono focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1"
+                >Machine Definition (JSON)</label
+              >
+              <textarea
+                id="machine-json"
+                rows="15"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
+              >
+{
+  "StartState": "q0",
+  "AcceptStates": ["q_accept"],
+  "RejectStates": ["q_reject"],
+  "Transitions": {
+    "q0": {
+      "S": {"write": "S", "move": "R", "next": "q1"}
+    }
+  }
+}
+                        </textarea
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200"
+            >
+              Run Simulation
+            </button>
+          </form>
+        </div>
+
+        <div
+          class="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col"
+        >
+          <h2 class="text-2xl font-semibold mb-4 text-yellow-400">
+            Execution Output
+          </h2>
+
+          <div
+            id="output-container"
+            class="flex-grow bg-gray-900 rounded border border-gray-700 p-4 overflow-y-auto max-h-[600px] font-mono text-sm"
+          >
+            <p class="text-gray-500 italic">
+              Submit the configuration to see step-by-step execution...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
