@@ -2,6 +2,7 @@ package yamlparser
 
 import (
 	"os"
+	"strings"
 
 	"github.com/tahaSadeghi2308/TapeRunner/internal/domain"
 	"gopkg.in/yaml.v3"
@@ -11,6 +12,28 @@ type YamlParser struct{}
 
 func NewYamlParser() *YamlParser {
 	return &YamlParser{}
+}
+
+func (p *YamlParser) ListMachines(dir string) ([]string, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	var machines []string
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		if strings.HasSuffix(strings.ToLower(entry.Name()), ".yaml") {
+			machines = append(machines, entry.Name())
+		}
+	}
+
+	if machines == nil {
+		machines = []string{}
+	}
+	return machines, nil
 }
 
 func (p *YamlParser) Read(filePath string) (*domain.Machine, error) {

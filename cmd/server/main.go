@@ -14,8 +14,8 @@ func main() {
 	handler := myhttp.NewHandler(simService) // myhttp alias depending on imports
 	router := myhttp.SetupRouter(handler)
 
-	log.Println("Server starting on http://localhost:8080...")
-	err := http.ListenAndServe(":8080", router)
+	log.Println("Server starting on http://localhost:3225...")
+	err := http.ListenAndServe(":3225", router)
 	if err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
