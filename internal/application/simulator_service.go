@@ -11,7 +11,7 @@ func NewSimulationService() *SimulationService {
 }
 
 func (s *SimulationService) Run(machine *domain.Machine, initialTape string) []domain.StepResult {
-	tape := domain.NewTape(initialTape, "_")
+	tape := domain.NewTape(initialTape, machine.Blank)
 	simulator := domain.NewSimulator(machine, tape)
 	
 	return simulator.Run()

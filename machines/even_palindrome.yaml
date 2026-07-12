@@ -1,0 +1,199 @@
+states:
+  - q0
+  - seek_right_0
+  - seek_right_1
+  - check_0
+  - check_1
+  - return_left
+  - accept
+  - reject
+
+input_alphabet:
+  - "0"
+  - "1"
+
+tape_alphabet:
+  - "0"
+  - "1"
+  - "X"
+  - "Y"
+  - "_"
+
+blank: "_"
+
+start_state: q0
+
+accept_states:
+  - accept
+
+reject_states:
+  - reject
+
+transitions:
+  - current_state: q0
+    read: "X"
+    write: "X"
+    move: R
+    next_state: q0
+
+  - current_state: q0
+    read: "Y"
+    write: "Y"
+    move: R
+    next_state: q0
+
+  - current_state: q0
+    read: "0"
+    write: "X"
+    move: R
+    next_state: seek_right_0
+
+  - current_state: q0
+    read: "1"
+    write: "Y"
+    move: R
+    next_state: seek_right_1
+
+  - current_state: q0
+    read: "_"
+    write: "_"
+    move: R
+    next_state: accept
+
+  - current_state: seek_right_0
+    read: "0"
+    write: "0"
+    move: R
+    next_state: seek_right_0
+
+  - current_state: seek_right_0
+    read: "1"
+    write: "1"
+    move: R
+    next_state: seek_right_0
+
+  - current_state: seek_right_0
+    read: "X"
+    write: "X"
+    move: R
+    next_state: seek_right_0
+
+  - current_state: seek_right_0
+    read: "Y"
+    write: "Y"
+    move: R
+    next_state: seek_right_0
+
+  - current_state: seek_right_0
+    read: "_"
+    write: "_"
+    move: L
+    next_state: check_0
+
+  - current_state: seek_right_1
+    read: "0"
+    write: "0"
+    move: R
+    next_state: seek_right_1
+
+  - current_state: seek_right_1
+    read: "1"
+    write: "1"
+    move: R
+    next_state: seek_right_1
+
+  - current_state: seek_right_1
+    read: "X"
+    write: "X"
+    move: R
+    next_state: seek_right_1
+
+  - current_state: seek_right_1
+    read: "Y"
+    write: "Y"
+    move: R
+    next_state: seek_right_1
+
+  - current_state: seek_right_1
+    read: "_"
+    write: "_"
+    move: L
+    next_state: check_1
+
+  - current_state: check_0
+    read: "X"
+    write: "X"
+    move: L
+    next_state: check_0
+
+  - current_state: check_0
+    read: "Y"
+    write: "Y"
+    move: L
+    next_state: check_0
+
+  - current_state: check_0
+    read: "0"
+    write: "X"
+    move: L
+    next_state: return_left
+
+  - current_state: check_0
+    read: "1"
+    write: "1"
+    move: R
+    next_state: reject
+
+  - current_state: check_1
+    read: "X"
+    write: "X"
+    move: L
+    next_state: check_1
+
+  - current_state: check_1
+    read: "Y"
+    write: "Y"
+    move: L
+    next_state: check_1
+
+  - current_state: check_1
+    read: "1"
+    write: "Y"
+    move: L
+    next_state: return_left
+
+  - current_state: check_1
+    read: "0"
+    write: "0"
+    move: R
+    next_state: reject
+
+  - current_state: return_left
+    read: "0"
+    write: "0"
+    move: L
+    next_state: return_left
+
+  - current_state: return_left
+    read: "1"
+    write: "1"
+    move: L
+    next_state: return_left
+
+  - current_state: return_left
+    read: "X"
+    write: "X"
+    move: L
+    next_state: return_left
+
+  - current_state: return_left
+    read: "Y"
+    write: "Y"
+    move: L
+    next_state: return_left
+
+  - current_state: return_left
+    read: "_"
+    write: "_"
+    move: R
+    next_state: q0

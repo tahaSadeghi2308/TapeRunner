@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/tahaSadeghi2308/TapeRunner/internal/adapters/parser"
+	yamlparser "github.com/tahaSadeghi2308/TapeRunner/internal/adapters/yaml_parser"
 	"github.com/tahaSadeghi2308/TapeRunner/internal/application"
 )
 
@@ -42,8 +42,8 @@ func (h *Handler) HandleRun(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	machine, err := parser.ParseMachine([]byte(req.MachineJSON))
+	parser := yamlparser.NewYamlParser()
+	machine, err := parser.Read("web/static/palindrome.yaml")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
