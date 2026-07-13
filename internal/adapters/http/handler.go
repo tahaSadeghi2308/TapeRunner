@@ -10,15 +10,17 @@ import (
 	"github.com/tahaSadeghi2308/TapeRunner/internal/application"
 )
 
+const MACHINES_FOLDER string = "machines"
+
 type Handler struct {
-	simService *application.SimulationService
+	simService  *application.SimulationService
 	machinesDir string
 }
 
 func NewHandler(simService *application.SimulationService) *Handler {
 	return &Handler{
-		simService: simService,
-		machinesDir: "machines",
+		simService:  simService,
+		machinesDir: MACHINES_FOLDER,
 	}
 }
 
@@ -65,9 +67,8 @@ func (h *Handler) HandleRun(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parser := yamlparser.NewYamlParser()
 	machinePath := filepath.Join(h.machinesDir, req.MachineName)
-	machine, err := parser.Read(machinePath)
+	machine, err := h.simService.MachineSetup.Read(machinePath)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

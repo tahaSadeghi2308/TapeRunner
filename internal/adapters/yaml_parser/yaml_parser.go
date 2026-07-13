@@ -10,8 +10,8 @@ import (
 
 type YamlParser struct{}
 
-func NewYamlParser() *YamlParser {
-	return &YamlParser{}
+func NewYamlParser() YamlParser {
+	return YamlParser{}
 }
 
 func (p *YamlParser) ListMachines(dir string) ([]string, error) {

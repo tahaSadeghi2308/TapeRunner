@@ -1,16 +1,18 @@
 package main
 
 import (
+	yamlparser "github.com/tahaSadeghi2308/TapeRunner/internal/adapters/yaml_parser"
 	"log"
 	"net/http"
 
-	"github.com/tahaSadeghi2308/TapeRunner/internal/application"
 	myhttp "github.com/tahaSadeghi2308/TapeRunner/internal/adapters/http"
+	"github.com/tahaSadeghi2308/TapeRunner/internal/application"
 )
 
 func main() {
-	simService := application.NewSimulationService()
-	
+	machineSetup := yamlparser.NewYamlParser()
+	simService := application.NewSimulationService(&machineSetup)
+
 	handler := myhttp.NewHandler(simService) // myhttp alias depending on imports
 	router := myhttp.SetupRouter(handler)
 
