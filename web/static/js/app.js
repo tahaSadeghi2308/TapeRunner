@@ -86,9 +86,9 @@ function renderSteps(steps, container) {
         const stepDiv = document.createElement('div');
         stepDiv.className = 'mb-6 p-3 bg-gray-800 rounded shadow';
 
-        let statusColor = 'text-green-300';
+        let statusColor = 'text-yellow-400';
         if (step.Status === 'Rejected' || step.Status === 'Timeout') statusColor = 'text-red-400';
-        else if (step.Status === 'Accepted') statusColor = 'text-yellow-400 font-bold';
+        else if (step.Status === 'Accepted') statusColor = 'text-green-300 font-bold';
 
         const headerHtml = `
             <div class="flex justify-between mb-3 border-b border-gray-700 pb-2">
