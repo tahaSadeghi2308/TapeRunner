@@ -1,5 +1,41 @@
+async function loadMachines() {
+    const machineSelect = document.getElementById('machine-select');
+    if (!machineSelect) return;
+
+    try {
+        const response = await fetch('/api/machines');
+        if (!response.ok) {
+            throw new Error('Failed to load machines');
+        }
+
+        const machines = await response.json();
+        machineSelect.innerHTML = '';
+
+        if (machines.length === 0) {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = 'No machines available';
+            machineSelect.appendChild(option);
+            return;
+        }
+
+        machines.forEach(machine => {
+            const option = document.createElement('option');
+            option.value = machine;
+            option.textContent = machine;
+            machineSelect.appendChild(option);
+        });
+    } catch (error) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Error loading machines';
+        machineSelect.appendChild(option);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Your existing code goes inside here safely
+    loadMachines();
+
     const formElement = document.getElementById('tm-form');
     
     if (formElement) {
@@ -7,8 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const initialTape = document.getElementById('initial-tape').value;
-            const machineJson = document.getElementById('machine-json').value;
+            const machineSelect = document.getElementById('machine-select');
+            const machineName = machineSelect.value;
             const outputContainer = document.getElementById('output-container');
+
+            if (!machineName) {
+                outputContainer.innerHTML = '<p class="text-red-500 font-bold">Error: Please select a machine</p>';
+                return;
+            }
 
             outputContainer.innerHTML = '<p class="text-blue-400">Running simulation...</p>';
 
@@ -17,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        initial_tape: initialTape,
-                        machine_json: machineJson
+                        machine_name: machineName,
+                        initial_tape: initialTape
                     })
                 });
 
@@ -44,9 +86,9 @@ function renderSteps(steps, container) {
         const stepDiv = document.createElement('div');
         stepDiv.className = 'mb-6 p-3 bg-gray-800 rounded shadow';
 
-        let statusColor = 'text-green-300';
+        let statusColor = 'text-yellow-400';
         if (step.Status === 'Rejected' || step.Status === 'Timeout') statusColor = 'text-red-400';
-        else if (step.Status === 'Accepted') statusColor = 'text-yellow-400 font-bold';
+        else if (step.Status === 'Accepted') statusColor = 'text-green-300 font-bold';
 
         const headerHtml = `
             <div class="flex justify-between mb-3 border-b border-gray-700 pb-2">
