@@ -1,0 +1,217 @@
+states:
+  - q0
+  - q1
+  - q2
+  - q3
+  - q4
+  - q5
+  - q6
+  - q7
+  - q8
+  - q9
+  - q10
+  - reject
+
+input_alphabet:
+  - "S"
+  - "1"
+  - "0"
+  - "X"
+  - "G"
+  - "#"
+
+tape_alphabet:
+  - "S"
+  - "1"
+  - "0"
+  - "X"
+  - "G"
+  - "a"
+  - "b"
+  - "_"
+  - "#"
+
+blank: "_"
+
+start_state: q0
+
+accept_states:
+  - q9
+
+reject_states:
+  - reject
+
+transitions:
+  - current_state: q0
+    read: "S"
+    write: "S"
+    move: R
+    next_state: q1
+
+  - current_state: q1
+    read: "1"
+    write: "a"
+    move: R
+    next_state: q2
+
+  - current_state: q1
+    read: "0"
+    write: "b"
+    move: R
+    next_state: q5
+
+  - current_state: q1
+    read: "#"
+    write: "#"
+    move: L
+    next_state: q8
+
+  - current_state: q2
+    read: "0"
+    write: "0"
+    move: R
+    next_state: q2
+
+  - current_state: q2
+    read: "1"
+    write: "1"
+    move: R
+    next_state: q2
+
+  - current_state: q2
+    read: "#"
+    write: "#"
+    move: R
+    next_state: q3
+
+  - current_state: q3
+    read: "1"
+    write: "1"
+    move: R
+    next_state: q3
+
+  - current_state: q3
+    read: "0"
+    write: "0"
+    move: R
+    next_state: q3
+
+  - current_state: q3
+    read: "X"
+    write: "1"
+    move: R
+    next_state: q4
+
+  - current_state: q4
+    read: "X"
+    write: "X"
+    move: R
+    next_state: q4
+
+  - current_state: q4
+    read: "_"
+    write: "X"
+    move: L
+    next_state: q10
+
+  - current_state: q5
+    read: "1"
+    write: "1"
+    move: R
+    next_state: q5
+
+  - current_state: q5
+    read: "0"
+    write: "0"
+    move: R
+    next_state: q5
+
+  - current_state: q5
+    read: "#"
+    write: "#"
+    move: R
+    next_state: q6
+
+  - current_state: q6
+    read: "0"
+    write: "0"
+    move: R
+    next_state: q6
+
+  - current_state: q6
+    read: "1"
+    write: "1"
+    move: R
+    next_state: q6
+
+  - current_state: q6
+    read: "X"
+    write: "0"
+    move: R
+    next_state: q7
+
+  - current_state: q7
+    read: "X"
+    write: "X"
+    move: R
+    next_state: q7
+
+  - current_state: q7
+    read: "_"
+    write: "X"
+    move: L
+    next_state: q10
+
+  - current_state: q10
+    read: "0"
+    write: "0"
+    move: L
+    next_state: q10
+
+  - current_state: q10
+    read: "1"
+    write: "1"
+    move: L
+    next_state: q10
+
+  - current_state: q10
+    read: "#"
+    write: "#"
+    move: L
+    next_state: q10
+
+  - current_state: q10
+    read: "X"
+    write: "X"
+    move: L
+    next_state: q10
+
+  - current_state: q10
+    read: "a"
+    write: "a"
+    move: R
+    next_state: q1
+
+  - current_state: q10
+    read: "b"
+    write: "b"
+    move: R
+    next_state: q1
+
+  - current_state: q8
+    read: "a"
+    write: "1"
+    move: L
+    next_state: q8
+
+  - current_state: q8
+    read: "b"
+    write: "0"
+    move: L
+    next_state: q8
+
+  - current_state: q8
+    read: "S"
+    write: "S"
+    move: R
+    next_state: q9
