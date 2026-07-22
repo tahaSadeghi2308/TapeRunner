@@ -204,3 +204,64 @@ func snapshot(s *domain.Simulator, status string) domain.StepResult {
 		Status:       status,
 	}
 }
+
+// LoadSymbolMap reads a small text file with one "digit=original_symbol"
+// pair per line (e.g. "0=_", "1=S", "2=1", ...) and returns it as a map.
+// This is ONLY needed for turning the UTM's internal digit encoding of M's
+// tape back into M's real, human-readable alphabet when printing results.
+func LoadSymbolMap(path string) (map[string]string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	out := make(map[string]string)
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) != 2 {
+			return nil, fmt.Errorf("bad symbol map line: %q (expected digit=symbol)", line)
+		}
+		out[parts[0]] = parts[1]
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DecodeFinalTape takes the FULL raw UTM tape (sentinel + rules + '#' +
+// padded/marked w) and a digit->original-symbol map, and reconstructs the
+// simulated machine M's own tape in ITS OWN alphabet - this is the part
+// that actually matters (e.g. "S 1 0 # 1 0 X X X _ G"), not the digit
+// soup. The cell currently under M's head is wrapped in [ ].
+func DecodeFinalTape(rawTape string, symbolOf map[string]string) string {
+	idx := strings.IndexByte(rawTape, '#')
+	if idx == -1 {
+		return rawTape
+	}
+	tapeofm := rawTape[idx+1:]
+
+	reverseMark := make(map[string]string, len(utmMark)) // marker letter -> digit
+	for d, m := range utmMark {
+		reverseMark[m] = d
+	}
+
+	var b strings.Builder
+	for _, r := range tapeofm {
+		ch := string(r)
+		if d, ok := reverseMark[ch]; ok {
+			b.WriteString("[" + symbolOf[d] + "]")
+		} else if sym, ok := symbolOf[ch]; ok {
+			b.WriteString(sym)
+		} else {
+			b.WriteString(ch) // unknown char (shouldn't normally happen)
+		}
+	}
+	return b.String()
+}
