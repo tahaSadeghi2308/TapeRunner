@@ -31,6 +31,18 @@
           <form id="tm-form" class="space-y-4">
             <div>
               <label class="block text-sm font-medium mb-1"
+                >Select Machine</label
+              >
+              <select
+                id="machine-select"
+                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500"
+              >
+                <option value="">Loading machines...</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1"
                 >Initial Tape String</label
               >
               <input
@@ -39,29 +51,6 @@
                 value="S101#XX__G"
                 class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white font-mono focus:outline-none focus:border-blue-500"
               />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium mb-1"
-                >Machine Definition (JSON)</label
-              >
-              <textarea
-                id="machine-json"
-                rows="15"
-                class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-blue-500"
-              >
-{
-  "StartState": "q0",
-  "AcceptStates": ["q_accept"],
-  "RejectStates": ["q_reject"],
-  "Transitions": {
-    "q0": {
-      "S": {"write": "S", "move": "R", "next": "q1"}
-    }
-  }
-}
-                        </textarea
-              >
             </div>
 
             <button
@@ -85,7 +74,7 @@
             class="flex-grow bg-gray-900 rounded border border-gray-700 p-4 overflow-y-auto max-h-[600px] font-mono text-sm"
           >
             <p class="text-gray-500 italic">
-              Submit the configuration to see step-by-step execution...
+              Select a machine and submit the configuration to see step-by-step execution...
             </p>
           </div>
         </div>

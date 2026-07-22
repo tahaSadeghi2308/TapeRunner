@@ -4,8 +4,9 @@ type Machine struct {
 	States        []string
 	InputAlphabet []string
 	TapeAlphabet  []string
-	Transitions   map[string]map[string]Transition 
+	Transitions   map[string]map[string]Transition
 	StartState    string
+	Blank         string
 	AcceptStates  []string
 	RejectStates  []string
 }

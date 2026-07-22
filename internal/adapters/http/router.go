@@ -9,6 +9,7 @@ func SetupRouter(handler *Handler) *http.ServeMux {
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	mux.HandleFunc("/", handler.ServeUI)
+	mux.HandleFunc("/api/machines", handler.HandleListMachines)
 	mux.HandleFunc("/api/run", handler.HandleRun)
 
 	return mux
